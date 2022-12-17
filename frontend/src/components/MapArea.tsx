@@ -1,5 +1,8 @@
 import { ReactElement } from "react";
+import useMap from "../hooks/useMap";
 
 export default function MapArea(): ReactElement {
-  return <div>Mapa</div>;
+  useMap("grey");
+
+  return <div id="map" className="h-80 w-full"></div>;
 }
