@@ -11,7 +11,7 @@ import {
 
 export default function TableMain(): ReactElement {
   return (
-    <TableContainer>
+    <TableContainer width={"full"}>
       <Table variant="striped" colorScheme="gray">
         <Thead>
           <Tr>

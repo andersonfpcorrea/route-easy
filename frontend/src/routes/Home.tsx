@@ -3,17 +3,19 @@ import FormMain from "../components/FormMain";
 import MapArea from "../components/MapArea";
 import TableMain from "../components/TableMain";
 import TableDetails from "../components/TableDetails";
-import { HStack, VStack } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 
 export default function Home(): ReactElement {
   return (
-    <HStack>
+    <Flex className="h-screen" paddingX={4} paddingY={10}>
       <FormMain />
-      <VStack>
+      <VStack width="full" height="full" paddingX={4} gap={12}>
         <MapArea />
-        <TableMain />
-        <TableDetails />
+        <Flex direction={"column"} gap={4} width={"full"}>
+          <TableMain />
+          <TableDetails />
+        </Flex>
       </VStack>
-    </HStack>
+    </Flex>
   );
 }
