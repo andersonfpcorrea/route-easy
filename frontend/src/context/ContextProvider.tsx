@@ -4,9 +4,10 @@ import Context from "./Context";
 export default function ContextProvider({
   children,
 }: React.PropsWithChildren): ReactElement {
-  const [coords, setCoords] = useState([-22.907, -43.173]);
+  const [defaultCoords] = useState([-22.907, -43.173]);
+  const [coords, setCoords] = useState(defaultCoords);
 
-  const store = { coords, setCoords };
+  const store = { defaultCoords, coords, setCoords };
 
   return <Context.Provider value={store}>{children}</Context.Provider>;
 }

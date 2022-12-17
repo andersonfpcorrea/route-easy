@@ -9,10 +9,15 @@ import {
   InputGroup,
   InputRightAddon,
 } from "@chakra-ui/react";
-// import { getGeolocation } from "../services/requests/getGeolocation";
+import useAddress from "../hooks/useAddress";
 
 export default function FormMain(): ReactElement {
   const addressRef = useRef(null);
+
+  const handleAddress = async (): Promise<void> => {
+    const { value } = addressRef.current as unknown as HTMLInputElement;
+    await useAddress(value); //!Check this
+  };
 
   return (
     <form className="flex flex-col gap-6">
@@ -47,7 +52,7 @@ export default function FormMain(): ReactElement {
                 paddingRight="24"
                 ref={addressRef}
                 required
-                onSubmit={() => console.log("submit")}
+                onSubmit={handleAddress}
               />
               <Button
                 size="xs"
