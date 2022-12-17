@@ -1,4 +1,4 @@
-import { ReactElement, useRef } from "react";
+import { ReactElement, useContext, useRef } from "react";
 import {
   Box,
   Button,
@@ -9,18 +9,31 @@ import {
   InputGroup,
   InputRightAddon,
 } from "@chakra-ui/react";
-import useAddress from "../hooks/useAddress";
+import Context from "../context/Context";
+import storeUserAddress from "../utils/storeUserAddress";
 
 export default function FormMain(): ReactElement {
-  const addressRef = useRef(null);
+  const addressRef = useRef<null | HTMLInputElement>(null);
+  const { setCoords, coords, setDelivery } = useContext(Context);
 
   const handleAddress = async (): Promise<void> => {
-    const { value } = addressRef.current as unknown as HTMLInputElement;
-    await useAddress(value); //!Check this
+    const { value } = addressRef.current as HTMLInputElement;
+    const geolocation = await storeUserAddress(value, setCoords);
+    setDelivery((prev) => ({ ...prev, geolocation }));
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    const entries = [...new FormData(e.target as HTMLFormElement)];
+    const dataObj = Object.fromEntries(entries);
+    await handleAddress();
+    setDelivery((prev) => ({ ...prev, ...dataObj }));
   };
 
   return (
-    <form className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <FormControl
         isRequired
         border="1px"
@@ -35,16 +48,16 @@ export default function FormMain(): ReactElement {
         <Flex direction={"column"} gap={6}>
           <FormControl isRequired>
             <FormLabel>Nome do cliente</FormLabel>
-            <Input placeholder="John" />
+            <Input placeholder="John" name="name" />
           </FormControl>
-          <Box>
+          <FormControl isRequired>
             <FormLabel>Peso da entrega (kg)</FormLabel>
             <InputGroup>
-              <Input placeholder="0.300" />
+              <Input placeholder="0.300" name="weigth" />
               <InputRightAddon>kg</InputRightAddon>
             </InputGroup>
-          </Box>
-          <Box>
+          </FormControl>
+          <FormControl isRequired>
             <FormLabel>Endereço de entrega</FormLabel>
             <Box position="relative">
               <Input
@@ -52,7 +65,6 @@ export default function FormMain(): ReactElement {
                 paddingRight="24"
                 ref={addressRef}
                 required
-                onSubmit={handleAddress}
               />
               <Button
                 size="xs"
@@ -61,24 +73,42 @@ export default function FormMain(): ReactElement {
                 right={4}
                 top={2}
                 zIndex="popover"
-                onClick={() => console.log("oi")}
+                onClick={handleAddress}
               >
                 Buscar
               </Button>
             </Box>
-          </Box>
+          </FormControl>
         </Flex>
 
         <Flex gap={2}>
-          <Input type={"text"} placeholder={"Latitude"} disabled />
-          <Input type={"text"} placeholder={"Longitude"} disabled />
+          <Input
+            type={"text"}
+            placeholder={`${
+              coords === null || coords.at(0) === undefined
+                ? "Latitude"
+                : String(coords.at(0))
+            }`}
+            disabled
+          />
+          <Input
+            type={"text"}
+            placeholder={`${
+              coords === null || coords.at(1) === undefined
+                ? "Longitude"
+                : String(coords.at(1))
+            }`}
+            disabled
+          />
         </Flex>
 
         <Flex gap={4} direction="column">
-          <Button width="full" colorScheme={"twitter"}>
+          <Button width="full" colorScheme={"twitter"} type={"submit"}>
             Cadastrar Cliente
           </Button>
-          <Button width="full">Resetar cadastro</Button>
+          <Button width="full" type={"submit"}>
+            Resetar cadastro
+          </Button>
         </Flex>
       </FormControl>
     </form>

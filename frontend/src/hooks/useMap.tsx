@@ -1,20 +1,8 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-type IUseMapProps = "standard" | "grey" | "dark";
-
-interface ILeafletThemeData {
-  url: string;
-  maxZoom: number;
-  attribution: string;
-}
-
-interface ILeafletThemes {
-  standard: ILeafletThemeData;
-  grey: ILeafletThemeData;
-  dark: ILeafletThemeData;
-}
+import Context from "../context/Context";
+import { ILeafletThemes, IUseMapProps } from "../interfaces";
 
 const LeafletThemes: ILeafletThemes = {
   standard: {
@@ -37,15 +25,21 @@ const LeafletThemes: ILeafletThemes = {
 };
 
 export default function useMap(theme: IUseMapProps): void {
+  const { defaultCoords, coords } = useContext(Context);
+  const mapLocation = coords === null ? defaultCoords : coords;
+
   useEffect(() => {
-    const map = L.map("map").setView([-22.907, -43.173], 13);
+    const map = L.map("map").setView(mapLocation, 13);
     L.tileLayer(LeafletThemes[theme].url, {
       maxZoom: LeafletThemes[theme].maxZoom,
       attribution: LeafletThemes[theme].attribution,
     }).addTo(map);
+    if (coords !== null) {
+      L.marker(coords).addTo(map);
+    }
 
     return () => {
       map.remove();
     };
-  }, [theme]);
+  }, [defaultCoords, mapLocation, coords, theme]);
 }

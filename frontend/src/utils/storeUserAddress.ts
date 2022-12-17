@@ -1,9 +1,11 @@
-import { useContext } from "react";
-import Context from "../context/Context";
+import { LatLngTuple } from "leaflet";
 import { getGeolocation } from "../services/requests/getGeolocation";
+import { IResultData } from "../interfaces";
 
-export default async function useAddress(address: string): Promise<void> {
-  const { setCoords } = useContext(Context);
+export default async function storeUserAddress(
+  address: string,
+  setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>
+): Promise<IResultData[]> {
   const resp = await getGeolocation(address);
 
   const locationData = resp.data.results;
@@ -14,4 +16,6 @@ export default async function useAddress(address: string): Promise<void> {
   if (lat !== undefined && long !== undefined) {
     setCoords([lat, long]);
   }
+
+  return resp.data.results;
 }

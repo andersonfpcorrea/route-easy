@@ -1,14 +1,12 @@
 import { createContext } from "react";
-
-interface IInitalState {
-  defaultCoords?: number[];
-  coords: number[];
-  setCoords: React.Dispatch<React.SetStateAction<number[]>>;
-}
+import { IInitalState } from "../interfaces";
 
 const Context = createContext<IInitalState>({
-  coords: [-22.907, -43.173],
+  defaultCoords: [-22.907, -43.173],
+  coords: null,
   setCoords: function () {},
+  delivery: null,
+  setDelivery: function () {},
 });
 
 export default Context;
