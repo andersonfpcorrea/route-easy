@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import FormMain from "../components/FormMain";
 import MapArea from "../components/MapArea";
 import TableMain from "../components/TableMain";
+import TableDetails from "../components/TableDetails";
 
 export default function Home(): ReactElement {
   return (
@@ -9,6 +10,7 @@ export default function Home(): ReactElement {
       <FormMain />
       <MapArea />
       <TableMain />
+      <TableDetails />
     </main>
   );
 }
