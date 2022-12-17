@@ -7,7 +7,11 @@ import {
   Th,
   Td,
   TableContainer,
+  Icon,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 export default function TableMain(): ReactElement {
   return (
@@ -22,6 +26,7 @@ export default function TableMain(): ReactElement {
             <Th isNumeric>Peso</Th>
             <Th isNumeric>Lat</Th>
             <Th isNumeric>Long</Th>
+            <Th>Editar/Excluir</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -33,6 +38,16 @@ export default function TableMain(): ReactElement {
             <Td isNumeric>120</Td>
             <Td isNumeric>-23.541</Td>
             <Td isNumeric>-46.584</Td>
+            <Td>
+              <Flex justifyContent={"space-around"}>
+                <Button>
+                  <Icon as={EditIcon} />
+                </Button>
+                <Button>
+                  <Icon as={DeleteIcon} />
+                </Button>
+              </Flex>
+            </Td>
           </Tr>
         </Tbody>
       </Table>
