@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useRef } from "react";
 import {
   Box,
   Button,
@@ -6,16 +6,21 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightAddon,
 } from "@chakra-ui/react";
+// import { getGeolocation } from "../services/requests/getGeolocation";
 
 export default function FormMain(): ReactElement {
+  const addressRef = useRef(null);
+
   return (
     <form className="flex flex-col gap-6">
       <FormControl
         isRequired
         border="1px"
+        borderColor={"ActiveBorder"}
         borderRadius="md"
-        borderColor="WindowFrame"
         paddingY={8}
         paddingX={4}
         display="flex"
@@ -23,13 +28,16 @@ export default function FormMain(): ReactElement {
         gap={10}
       >
         <Flex direction={"column"} gap={6}>
-          <Box>
+          <FormControl isRequired>
             <FormLabel>Nome do cliente</FormLabel>
             <Input placeholder="John" />
-          </Box>
+          </FormControl>
           <Box>
             <FormLabel>Peso da entrega (kg)</FormLabel>
-            <Input placeholder="0.300" />
+            <InputGroup>
+              <Input placeholder="0.300" />
+              <InputRightAddon>kg</InputRightAddon>
+            </InputGroup>
           </Box>
           <Box>
             <FormLabel>Endereço de entrega</FormLabel>
@@ -37,15 +45,18 @@ export default function FormMain(): ReactElement {
               <Input
                 placeholder="Avenida Presidente Vargas, 102"
                 paddingRight="24"
+                ref={addressRef}
+                required
+                onSubmit={() => console.log("submit")}
               />
               <Button
                 size="xs"
-                colorScheme="yellow"
                 textTransform={"uppercase"}
                 position="absolute"
                 right={4}
                 top={2}
                 zIndex="popover"
+                onClick={() => console.log("oi")}
               >
                 Buscar
               </Button>
@@ -59,12 +70,10 @@ export default function FormMain(): ReactElement {
         </Flex>
 
         <Flex gap={4} direction="column">
-          <Button colorScheme="green" width="full">
+          <Button width="full" colorScheme={"twitter"}>
             Cadastrar Cliente
           </Button>
-          <Button colorScheme="red" width="full">
-            Resetar cadastro
-          </Button>
+          <Button width="full">Resetar cadastro</Button>
         </Flex>
       </FormControl>
     </form>

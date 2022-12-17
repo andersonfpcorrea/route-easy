@@ -38,7 +38,7 @@ const LeafletThemes: ILeafletThemes = {
 
 export default function useMap(theme: IUseMapProps): void {
   useEffect(() => {
-    const map = L.map("map").setView([51.505, -0.09], 13);
+    const map = L.map("map").setView([-22.907, -43.173], 13);
     L.tileLayer(LeafletThemes[theme].url, {
       maxZoom: LeafletThemes[theme].maxZoom,
       attribution: LeafletThemes[theme].attribution,
