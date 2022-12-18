@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - 5173:5173
+    platform: linux/x86_64
+    volumes:
+      - ./frontend:/usr/src/app
+    networks:
+      - react-express
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'lsof', '-t', '-i:3000']
+      timeout: 3s
+      retries: 5
+
+  backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - 3001:3001
+    platform: linux/x86_64
+    volumes:
+      - ./backend:/usr/src/app
+    networks:
+      - express-mongo
+      - react-express
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - PORT=3001
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_HOST=mongo
+    healthcheck:
+      test: ['CMD', 'lsof', '-t', '-i:3001']
+      timeout: 3s
+      retries: 5
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    platform: linux/x86_64
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - ./data:/data/db
+    networks:
+      - express-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+networks:
+  react-express:
+  express-mongo:

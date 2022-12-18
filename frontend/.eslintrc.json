@@ -17,7 +17,7 @@
     "sourceType": "module",
     "project": "./frontend/tsconfig.json"
   },
-  "ignorePatterns": ["*config.cjs"],
+  "ignorePatterns": ["*config.cjs", "*config.ts"],
   "plugins": ["react"],
   "rules": {
     "prettier/prettier": "error",

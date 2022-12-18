@@ -1,21 +1,19 @@
 export interface IDeliveryModel {
   name: string;
+  weigth: number;
   address: {
-    required: unknown[] | unknown[];
-    street?: string | undefined;
+    street: string;
+    city: string;
+    country: string;
+    geolocation: {
+      latitude: number;
+      longitude: number;
+    };
+    number?: string | undefined;
+    neighbourhood?: string | undefined;
+    complement?: string | undefined;
+    state?: string | undefined;
   };
-  city: string;
-  country: string;
-  geolocation: {
-    enum: unknown[];
-    type?: string | undefined;
-    default?: unknown;
-  };
-  number?: string | undefined;
-  neighbourhood?: string | undefined;
-  complement?: string | undefined;
-  state?: string | undefined;
-  weigth?: number | undefined;
 }
 
 export interface IServiceReturn {

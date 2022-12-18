@@ -13,26 +13,25 @@ const deliverySchema = new mongoose.Schema({
       message: "Client's name must contain only letters",
     },
   },
-  weigth: { type: Number, require: [true, "Weight must be provided"] },
+  weigth: { type: Number, required: [true, "Weight must be provided"] },
   address: {
-    street: String,
-    required: [true, "Street must be provided"],
-  },
-  number: String,
-  neighbourhood: String,
-  complement: String,
-  city: { type: String, required: [true, "City must be provided"] },
-  state: String,
-  country: { type: String, required: [true, "State must be provided"] },
-  geolocation: {
-    // GeoJSON
     type: {
-      type: String,
-      default: "Point",
-      enum: ["Point"],
+      street: { type: String, required: [true, "Street must be provided"] },
+      number: String,
+      neighbourhood: String,
+      complement: String,
+      city: { type: String, required: [true, "City must be provided"] },
+      state: String,
+      country: { type: String, required: [true, "State must be provided"] },
+      geolocation: {
+        type: {
+          latitude: { type: Number, required: [true, "Latitude required"] },
+          longitude: { type: Number, required: [true, "Longitude required"] },
+        },
+        required: [true, "Geolocation required"],
+      },
     },
-    required: [true, "Coordinates (lat, long) are required"],
-    coordinates: [Number],
+    required: true,
   },
 });
 
