@@ -29,14 +29,12 @@ services:
     networks:
       - express-mongo
       - react-express
+    environment:
+      PORT: 3001
+      DB_URL: mongodb://root:root@mongo:27017/
     depends_on:
       mongo:
         condition: service_healthy
-    environment:
-      - PORT=3001
-      - DB_USER=root
-      - DB_PASS=root
-      - DB_HOST=mongo
     healthcheck:
       test: ['CMD', 'lsof', '-t', '-i:3001']
       timeout: 3s
