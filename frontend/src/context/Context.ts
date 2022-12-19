@@ -7,6 +7,8 @@ const Context = createContext<IInitalState>({
   setCoords: function () {},
   delivery: null,
   setDelivery: function () {},
+  tableData: null,
+  setTableData: function () {},
 });
 
 export default Context;
