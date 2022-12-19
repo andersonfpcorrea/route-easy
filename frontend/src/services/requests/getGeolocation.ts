@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import geoApi from "../config/geocode";
+import geoApi from "../config/geocodeApi";
 import { IGeoData } from "../../interfaces";
 
 export const getGeolocation = async (
