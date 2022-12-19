@@ -96,3 +96,7 @@ export interface IUseFormReturn {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleAddress: () => Promise<void>;
 }
+
+export interface IFetchError {
+  error?: { message: string; stack?: string };
+}

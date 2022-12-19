@@ -3,10 +3,10 @@ import {
   createDelivery,
   getDeliveries,
 } from "../controllers/deliveryController";
+import "express-async-errors";
 
 const router = Router();
 
-router.get("/", getDeliveries);
-router.post("/", createDelivery);
+router.route("/").get(getDeliveries).post(createDelivery);
 
 export default router;

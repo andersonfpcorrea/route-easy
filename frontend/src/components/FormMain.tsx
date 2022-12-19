@@ -73,6 +73,7 @@ export default function FormMain(): ReactElement {
                 placeholder="10"
                 name="weigth"
                 type={"number"}
+                step={0.001}
                 min={0.1}
                 max={1000}
               />

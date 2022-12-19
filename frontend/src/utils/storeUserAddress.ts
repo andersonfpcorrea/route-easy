@@ -1,6 +1,6 @@
 import { LatLngTuple } from "leaflet";
 import { getGeolocation } from "../services/requests/getGeolocation";
-import { IAddress, IResultData } from "../interfaces";
+import { IAddress, IGeoData, IResultData } from "../interfaces";
 
 const defineAddress = (address: IResultData): IAddress => {
   const keys = [
@@ -39,6 +39,8 @@ const defineAddress = (address: IResultData): IAddress => {
     longitude: address.geometry.location.lng,
   };
 
+  console.log(addressObj);
+
   return addressObj;
 };
 
@@ -46,9 +48,9 @@ export default async function storeUserAddress(
   address: string,
   setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>
 ): Promise<IAddress> {
-  const resp = await getGeolocation(address);
+  const data = (await getGeolocation(address)) as IGeoData;
 
-  const [locationData] = resp.data.results;
+  const [locationData] = data.results;
 
   const lat = locationData?.geometry.location.lat;
   const long = locationData?.geometry.location.lng;

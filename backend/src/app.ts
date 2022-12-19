@@ -4,6 +4,10 @@ import deliveryRouter from "./routers/deliveryRouter";
 
 const app = express();
 
+// Middlewares:
+// - Body parser:
+app.use(express.json());
+
 // Routes
 app.use("/deliveries", deliveryRouter);
 
