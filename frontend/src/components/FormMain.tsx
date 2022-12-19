@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useRef, useState } from "react";
+import { ReactElement, useContext, useRef } from "react";
 import {
   Box,
   Button,
@@ -10,37 +10,13 @@ import {
   InputRightAddon,
 } from "@chakra-ui/react";
 import Context from "../context/Context";
-import storeUserAddress from "../utils/storeUserAddress";
-import { IFormData } from "../interfaces";
+import useForm from "../hooks/useForm";
 
 export default function FormMain(): ReactElement {
   const addressRef = useRef<null | HTMLInputElement>(null);
-  const { setCoords, coords, setDelivery } = useContext(Context);
+  const { coords } = useContext(Context);
 
-  const handleAddress = async (): Promise<void> => {
-    const { value } = addressRef.current as HTMLInputElement;
-    const addressObj = await storeUserAddress(value, setCoords);
-    setDelivery((prev) => ({ ...prev, address: addressObj }));
-  };
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault();
-    setIsLoading(true);
-    const entries = [...new FormData(e.target as HTMLFormElement)];
-    const dataObj: IFormData<string> = Object.fromEntries(entries);
-    console.log(dataObj);
-
-    await handleAddress();
-    setDelivery((prev) => ({
-      ...prev,
-      name: dataObj.name,
-      weigth: Number(dataObj.weigth),
-    }));
-  };
+  const { isLoading, handleSubmit, handleAddress } = useForm(addressRef);
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>

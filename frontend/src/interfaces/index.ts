@@ -29,6 +29,7 @@ export interface IDelivery extends IFormData<number> {
 export interface IDeliveryTable extends IBasicAddress, IFormData<number> {
   lat: number;
   long: number;
+  timestamp: number;
 }
 
 export interface IInitalState {
@@ -37,8 +38,11 @@ export interface IInitalState {
   setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>;
   delivery: IDelivery | null;
   setDelivery: React.Dispatch<React.SetStateAction<IDelivery | null>>;
-  tableData: IDeliveryTable | null;
-  setTableData: React.Dispatch<React.SetStateAction<IDeliveryTable | null>>;
+  tableData: IDeliveryTable[] | null;
+  setTableData: React.Dispatch<React.SetStateAction<IDeliveryTable[] | null>>;
+  tableRows?: Array<
+    React.ReactElement<any, string | React.JSXElementConstructor<any>>
+  > | null;
 }
 
 export type IUseMapProps = "standard" | "grey" | "dark";
@@ -104,6 +108,7 @@ export interface IUseFormReturn {
   isLoading: boolean;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleAddress: () => Promise<void>;
+  error?: IFetchError | null;
 }
 
 export interface IFetchError {

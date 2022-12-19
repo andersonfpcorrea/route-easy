@@ -39,8 +39,6 @@ const defineAddress = (address: IResultData): IAddress => {
     longitude: address.geometry.location.lng,
   };
 
-  console.log(addressObj);
-
   return addressObj;
 };
 

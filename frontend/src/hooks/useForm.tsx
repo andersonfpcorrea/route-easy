@@ -1,19 +1,26 @@
 import { useContext, useEffect, useState } from "react";
 import Context from "../context/Context";
-import { IDelivery, IFormData, IUseFormReturn } from "../interfaces";
+import {
+  IDelivery,
+  IDeliveryTable,
+  IFetchError,
+  IFormData,
+  IUseFormReturn,
+} from "../interfaces";
 import storeUserAddress from "../utils/storeUserAddress";
-import { postDelivery } from "../services/requests/dbRequests";
+import { getDeliveries, postDelivery } from "../services/requests/dbRequests";
 
 /**
  * @param addressRef Reference for the HTML input element that will receive address data
  * @example
  *  const addressRef = useRef<null | HTMLInputElement>
- *  const { isLoading, setIsLoading, handleSubmit, handleAddress } = useForm(addressRef);
+ *  const { isLoading, handleSubmit, handleAddress, error } = useForm(addressRef);
  */
 export default function useForm(
   addressRef: React.MutableRefObject<HTMLInputElement | null>
 ): IUseFormReturn {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<IFetchError | null>(null);
   const { setDelivery, delivery, setCoords, setTableData } =
     useContext(Context);
 
@@ -30,7 +37,6 @@ export default function useForm(
     setIsLoading(true);
     const entries = [...new FormData(e.target as HTMLFormElement)];
     const dataObj: IFormData<string> = Object.fromEntries(entries);
-    console.log(dataObj);
 
     await handleAddress();
 
@@ -41,6 +47,18 @@ export default function useForm(
     }));
   };
 
+  const createTableDataArray = (data: IDelivery[]): IDeliveryTable[] =>
+    data.map((el) => ({
+      name: el.name,
+      weigth: el.weigth,
+      street: el.address?.street as string,
+      city: el.address?.city as string,
+      country: el.address?.country as string,
+      lat: el.address?.geolocation.latitude as number,
+      long: el.address?.geolocation.longitude as number,
+      timestamp: Date.now(),
+    }));
+
   useEffect(() => {
     if (
       delivery?.name !== undefined &&
@@ -48,23 +66,23 @@ export default function useForm(
       delivery?.address !== undefined
     ) {
       setIsLoading(true);
+
+      // Send delivery objtect to be stored into db:
       postDelivery(delivery)
-        .then((data) => {
-          const { name, weigth, address } = data as IDelivery;
-          setTableData({
-            name,
-            weigth,
-            street: address?.city as string,
-            city: address?.city as string,
-            country: address?.country as string,
-            lat: address?.geolocation.latitude as number,
-            long: address?.geolocation.longitude as number,
-          });
+        // Then, get the updated deliveries list from db
+        .then(async () => await getDeliveries())
+        // Model the data to be displayed on ui:
+        .then((data) => createTableDataArray(data as IDelivery[]))
+        // Store the array od deliveries on global store:
+        .then((tableArray) => setTableData(tableArray))
+
+        .catch((err) => {
+          const { message, stack } = err as Error;
+          setError({ error: { message, stack } });
         })
-        .catch((err) => console.error(err))
         .finally(() => setIsLoading(false));
     }
   }, [delivery, setTableData]);
 
-  return { isLoading, handleSubmit, handleAddress };
+  return { isLoading, handleSubmit, handleAddress, error };
 }
