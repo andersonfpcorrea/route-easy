@@ -9,10 +9,10 @@ export interface IDeliveryModel {
       latitude: number;
       longitude: number;
     };
-    number?: string | undefined;
-    neighbourhood?: string | undefined;
-    complement?: string | undefined;
-    state?: string | undefined;
+    number?: string;
+    neighbourhood?: string;
+    complement?: string;
+    state?: string;
   };
 }
 

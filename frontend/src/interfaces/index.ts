@@ -1,9 +1,26 @@
 import { LatLngTuple } from "leaflet";
 
-export interface IDelivery {
+export interface IAddress {
+  street: string;
+  city: string;
+  country: string;
+  geolocation: {
+    latitude: number;
+    longitude: number;
+  };
+  number?: string;
+  neighbourhood?: string;
+  complement?: string;
+  state?: string;
+}
+
+export interface IFormData<W> {
   name?: string;
-  weight?: string;
-  geolocation?: IResultData[];
+  weigth?: W;
+}
+
+export interface IDelivery extends IFormData<number> {
+  address?: IAddress;
 }
 
 export interface IInitalState {
@@ -71,4 +88,11 @@ export interface IResultData {
 export interface IGeoData {
   results: IResultData[];
   status: string;
+}
+
+export interface IUseFormReturn {
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleAddress: () => Promise<void>;
 }
