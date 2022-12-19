@@ -17,7 +17,7 @@ export interface IDeliveryModel {
 }
 
 export interface IServiceReturn {
-  result?: IDeliveryModel[];
+  result?: IDeliveryModel[] | IDeliveryModel;
   status: number;
   error?: {
     message: string;
