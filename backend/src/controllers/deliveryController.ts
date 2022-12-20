@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import AppError from "../utils/AppError";
-import { findAll, createOne, destroyOne } from "../services/deliveryService";
+import {
+  findAll,
+  createOne,
+  destroyOne,
+  destroyAll,
+} from "../services/deliveryService";
 import { IDeliveryModel } from "../interfaces";
 
 export const getDeliveries = async (
@@ -30,6 +35,15 @@ export const deleteDelivery = async (
 ): Promise<void> => {
   const { id } = req.params;
   const { status, error } = await destroyOne(id);
+  if (error !== undefined) throw new AppError(error.message, status);
+  res.status(status).json();
+};
+
+export const deleteDeliveries = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { status, error } = await destroyAll();
   if (error !== undefined) throw new AppError(error.message, status);
   res.status(status).json();
 };

@@ -40,3 +40,18 @@ export const destroyOne = async (id: string): Promise<IServiceReturn> => {
     return { error: { message }, status: statusCodeTable.INTERNAL_ERROR };
   }
 };
+
+export const destroyAll = async (): Promise<IServiceReturn> => {
+  try {
+    const result: IDeleteResult | undefined = await Delivery.deleteMany({});
+    if (result.deletedCount === 0)
+      return {
+        error: { message: "No document deleted" },
+        status: statusCodeTable.BAD_REQUEST,
+      };
+    return { status: statusCodeTable.NO_CONTENT };
+  } catch (err) {
+    const { message } = err as Error;
+    return { error: { message }, status: statusCodeTable.INTERNAL_ERROR };
+  }
+};
