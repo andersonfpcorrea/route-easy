@@ -39,7 +39,7 @@ export interface IInitalState {
   setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>;
   tableData: IDeliveryTable[] | null;
   errorDeliveries?: IFetchError | null;
-  isLoadingDeliveries?: boolean;
+  isLoadingDeliveries: boolean;
   setUpdateTable: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

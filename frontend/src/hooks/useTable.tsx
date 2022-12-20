@@ -6,16 +6,14 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { deleteDelivery } from "../services/requests/dbRequests";
 
 export default function useTable(): IUseTableReturn {
-  const { tableData, setUpdateTable } = useContext(Context);
+  const { tableData, setUpdateTable, isLoadingDeliveries } =
+    useContext(Context);
   const [tableRows, setTableRows] = useState<Array<
     ReactElement<any, string | React.JSXElementConstructor<any>>
   > | null>(null);
   const [tableError, setTableError] = useState<IFetchError | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = (id: string): void => {
-    setIsDeleting(true);
-
     deleteDelivery(id)
       .then((data) => {
         if (data !== null)
@@ -27,8 +25,7 @@ export default function useTable(): IUseTableReturn {
       .catch((e) => {
         const { message, stack } = e as Error;
         setTableError({ error: { message, stack } });
-      })
-      .finally(() => setIsDeleting(false));
+      });
   };
 
   const markup = (delivery: IDeliveryTable): ReactElement => (
@@ -47,9 +44,9 @@ export default function useTable(): IUseTableReturn {
           </Button>
           <Button
             onClick={() => handleDelete(delivery.id)}
-            isLoading={isDeleting}
+            isLoading={isLoadingDeliveries}
           >
-            {!isDeleting && <Icon as={DeleteIcon} />}
+            {!isLoadingDeliveries && <Icon as={DeleteIcon} />}
           </Button>
         </Flex>
       </Td>
