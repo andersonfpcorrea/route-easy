@@ -13,9 +13,7 @@ export const getDeliveries = async (
   res: Response
 ): Promise<void> => {
   const { result, status, error } = await findAll();
-
   if (error !== undefined) throw new AppError(error.message, status);
-
   res.status(status).json(result);
 };
 
