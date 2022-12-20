@@ -12,8 +12,8 @@ export default function useTable(): Array<
     ReactElement<any, string | React.JSXElementConstructor<any>>
   > | null>(null);
 
-  const markup = (delivery: IDeliveryTable): ReactElement => (
-    <Tr key={delivery.timestamp}>
+  const markup = (delivery: IDeliveryTable, i: number): ReactElement => (
+    <Tr key={i}>
       <Td>{delivery.name}</Td>
       <Td>{delivery.street}</Td>
       <Td>{delivery.city}</Td>
@@ -35,13 +35,10 @@ export default function useTable(): Array<
   );
 
   useEffect(() => {
-    console.log("I tried");
-    console.log(tableData);
-
     if (tableData !== null && tableData.length > 0) {
       console.log("I am updated");
 
-      const rows = tableData.map((t) => markup(t));
+      const rows = tableData.map((t, i) => markup(t, i));
       setTableRows(rows);
     }
   }, [tableData]);

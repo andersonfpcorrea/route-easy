@@ -33,16 +33,12 @@ export interface IDeliveryTable extends IBasicAddress, IFormData<number> {
 }
 
 export interface IInitalState {
-  defaultCoords: LatLngTuple;
   coords: LatLngTuple | null;
   setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>;
-  delivery: IDelivery | null;
-  setDelivery: React.Dispatch<React.SetStateAction<IDelivery | null>>;
   tableData: IDeliveryTable[] | null;
-  setTableData: React.Dispatch<React.SetStateAction<IDeliveryTable[] | null>>;
-  tableRows?: Array<
-    React.ReactElement<any, string | React.JSXElementConstructor<any>>
-  > | null;
+  errorDeliveries?: IFetchError | null;
+  isLoadingDeliveries?: boolean;
+  setUpdateTable: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export type IUseMapProps = "standard" | "grey" | "dark";
@@ -111,6 +107,19 @@ export interface IUseFormReturn {
   error?: IFetchError | null;
 }
 
+export interface IUserFormProps {
+  nameRef: React.MutableRefObject<HTMLInputElement | null>;
+  weigthRef: React.MutableRefObject<HTMLInputElement | null>;
+  addressRef: React.MutableRefObject<HTMLInputElement | null>;
+}
+
 export interface IFetchError {
   error?: { message: string; stack?: string };
+}
+
+export interface IUseDeliveriesReturn {
+  tableData: IDeliveryTable[] | null;
+  errorDeliveries: IFetchError | null;
+  isLoadingDeliveries: boolean;
+  setUpdateTable: React.Dispatch<React.SetStateAction<boolean>>;
 }

@@ -1,9 +1,9 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
-import Context from "../context/Context";
+import useTable from "../hooks/useTable";
 
 export default function TableMain(): ReactElement {
-  const { tableRows } = useContext(Context);
+  const tableRows = useTable();
 
   return (
     <TableContainer width={"full"}>

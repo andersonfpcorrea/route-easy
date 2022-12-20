@@ -13,10 +13,17 @@ import Context from "../context/Context";
 import useForm from "../hooks/useForm";
 
 export default function FormMain(): ReactElement {
+  const nameRef = useRef<null | HTMLInputElement>(null);
+  const weigthRef = useRef<null | HTMLInputElement>(null);
   const addressRef = useRef<null | HTMLInputElement>(null);
+
   const { coords } = useContext(Context);
 
-  const { isLoading, handleSubmit, handleAddress } = useForm(addressRef);
+  const { isLoading, handleSubmit, handleAddress } = useForm({
+    nameRef,
+    weigthRef,
+    addressRef,
+  });
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -40,6 +47,7 @@ export default function FormMain(): ReactElement {
               type={"text"}
               minLength={2}
               maxLength={40}
+              ref={nameRef}
             />
           </FormControl>
           <FormControl isRequired>
@@ -52,6 +60,7 @@ export default function FormMain(): ReactElement {
                 step={0.001}
                 min={0.1}
                 max={1000}
+                ref={weigthRef}
               />
               <InputRightAddon>kg</InputRightAddon>
             </InputGroup>

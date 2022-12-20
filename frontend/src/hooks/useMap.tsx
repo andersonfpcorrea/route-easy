@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import L from "leaflet";
+import L, { LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Context from "../context/Context";
 import { ILeafletThemes, IUseMapProps } from "../interfaces";
@@ -25,7 +25,8 @@ const LeafletThemes: ILeafletThemes = {
 };
 
 export default function useMap(theme: IUseMapProps): void {
-  const { defaultCoords, coords } = useContext(Context);
+  const defaultCoords: LatLngTuple = [-22.907, -43.173];
+  const { coords } = useContext(Context);
   const mapLocation = coords === null ? defaultCoords : coords;
 
   useEffect(() => {
@@ -41,5 +42,5 @@ export default function useMap(theme: IUseMapProps): void {
     return () => {
       map.remove();
     };
-  }, [defaultCoords, mapLocation, coords, theme]);
+  }, [mapLocation, coords, theme]);
 }
