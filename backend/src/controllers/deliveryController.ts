@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import AppError from "../utils/AppError";
-import { findAll, createOne } from "../services/deliveryService";
+import { findAll, createOne, destroyOne } from "../services/deliveryService";
 import { IDeliveryModel } from "../interfaces";
 
 export const getDeliveries = async (
@@ -22,4 +22,14 @@ export const createDelivery = async (
   const { result, status, error } = await createOne(delivery);
   if (error !== undefined) throw new AppError(error.message, status);
   res.status(status).json(result);
+};
+
+export const deleteDelivery = async (
+  req: Request<{ id: string }>,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+  const { status, error } = await destroyOne(id);
+  if (error !== undefined) throw new AppError(error.message, status);
+  res.status(status).json();
 };

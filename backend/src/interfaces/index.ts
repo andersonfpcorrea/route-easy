@@ -16,8 +16,13 @@ export interface IDeliveryModel {
   };
 }
 
+export interface IDeleteResult {
+  acknowledged: boolean;
+  deletedCount: number;
+}
+
 export interface IServiceReturn {
-  result?: IDeliveryModel[] | IDeliveryModel;
+  result?: IDeliveryModel[] | IDeliveryModel | IDeleteResult | undefined;
   status: number;
   error?: {
     message: string;
