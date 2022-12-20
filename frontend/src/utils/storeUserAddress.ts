@@ -1,6 +1,6 @@
-import { LatLngTuple } from "leaflet";
 import { getGeolocation } from "../services/requests/getGeolocation";
-import { IAddress, IGeoData, IResultData } from "../interfaces";
+import { IAddress, ICoords, IGeoData, IResultData } from "../interfaces";
+import { LatLngTuple } from "leaflet";
 
 const defineAddress = (address: IResultData): IAddress => {
   const keys = [
@@ -26,6 +26,7 @@ const defineAddress = (address: IResultData): IAddress => {
         longitude: 0,
       },
       complement: "",
+      placeId: "",
     };
 
   // Define values on 'addressObj' - execept for 'geolocation' key:
@@ -39,12 +40,15 @@ const defineAddress = (address: IResultData): IAddress => {
     longitude: address.geometry.location.lng,
   };
 
+  // Define place_id field:
+  addressObj.placeId = address.place_id;
+
   return addressObj;
 };
 
 export default async function storeUserAddress(
   address: string,
-  setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>
+  setCoords: React.Dispatch<React.SetStateAction<ICoords[] | null>>
 ): Promise<IAddress> {
   const data = (await getGeolocation(address)) as IGeoData;
 
@@ -54,7 +58,14 @@ export default async function storeUserAddress(
   const long = locationData?.geometry.location.lng;
 
   if (lat !== undefined && long !== undefined) {
-    setCoords([lat, long]);
+    setCoords((prev) => {
+      const newCoords = {
+        placeId: locationData.place_id,
+        coords: [lat, long] as LatLngTuple,
+      };
+      if (prev === null) return [newCoords];
+      return [...prev, newCoords];
+    });
   }
 
   return defineAddress(locationData);

@@ -30,6 +30,7 @@ const deliverySchema = new mongoose.Schema({
         },
         required: [true, "Geolocation required"],
       },
+      placeId: { type: String, required: [true, "PlaceId is required"] },
     },
     required: true,
   },

@@ -16,6 +16,7 @@ export interface IAddress extends IBasicAddress {
   neighbourhood?: string;
   complement?: string;
   state?: string;
+  placeId: string;
 }
 
 export interface IFormData<W> {
@@ -24,7 +25,7 @@ export interface IFormData<W> {
 }
 
 export interface IDelivery extends IFormData<number> {
-  _id: string;
+  _id?: string;
   address?: IAddress;
 }
 
@@ -32,11 +33,17 @@ export interface IDeliveryTable extends IBasicAddress, IFormData<number> {
   id: string;
   lat: number;
   long: number;
+  placeId: string;
+}
+
+export interface ICoords {
+  placeId: string;
+  coords: LatLngTuple;
 }
 
 export interface IInitalState {
-  coords: LatLngTuple | null;
-  setCoords: React.Dispatch<React.SetStateAction<LatLngTuple | null>>;
+  coords: ICoords[] | null;
+  setCoords: React.Dispatch<React.SetStateAction<ICoords[] | null>>;
   tableData: IDeliveryTable[] | null;
   errorDeliveries?: IFetchError | null;
   isLoadingDeliveries: boolean;

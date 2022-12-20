@@ -1,12 +1,12 @@
 import React, { ReactElement, useState } from "react";
 import Context from "./Context";
-import { LatLngTuple } from "leaflet";
 import useDeliveries from "../hooks/useDeliveries";
+import { ICoords } from "../interfaces";
 
 export default function ContextProvider({
   children,
 }: React.PropsWithChildren): ReactElement {
-  const [coords, setCoords] = useState<LatLngTuple | null>(null);
+  const [coords, setCoords] = useState<ICoords[] | null>(null);
 
   const { tableData, errorDeliveries, isLoadingDeliveries, setUpdateTable } =
     useDeliveries();

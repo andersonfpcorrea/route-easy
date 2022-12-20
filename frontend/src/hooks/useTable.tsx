@@ -6,21 +6,27 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { deleteDelivery } from "../services/requests/dbRequests";
 
 export default function useTable(): IUseTableReturn {
-  const { tableData, setUpdateTable, isLoadingDeliveries } =
+  const { tableData, setUpdateTable, isLoadingDeliveries, setCoords } =
     useContext(Context);
   const [tableRows, setTableRows] = useState<Array<
     ReactElement<any, string | React.JSXElementConstructor<any>>
   > | null>(null);
   const [tableError, setTableError] = useState<IFetchError | null>(null);
 
-  const handleDelete = (id: string): void => {
+  const handleDelete = (id: string, placeId: string): void => {
     deleteDelivery(id)
       .then((data) => {
         if (data !== null)
           return setTableError({
             error: { message: data.error?.message as string },
           });
+        // Dispatch order to update table:
         setUpdateTable(true);
+        // Dispatch order to update map pins:
+        setCoords((prev) => {
+          if (prev === null) return null;
+          return prev.filter((el) => el.placeId !== placeId);
+        });
       })
       .catch((e) => {
         const { message, stack } = e as Error;
@@ -43,7 +49,7 @@ export default function useTable(): IUseTableReturn {
             <Icon as={EditIcon} />
           </Button>
           <Button
-            onClick={() => handleDelete(delivery.id)}
+            onClick={() => handleDelete(delivery.id, delivery.placeId)}
             isLoading={isLoadingDeliveries}
           >
             {!isLoadingDeliveries && <Icon as={DeleteIcon} />}
