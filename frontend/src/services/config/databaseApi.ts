@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const url = `${import.meta.env.VITE_DB_API_PROTOCOL as string}://${
+  import.meta.env.VITE_DB_API_HOST as string
+}`;
+
 const dbApi = axios.create({
-  baseURL: import.meta.env.VITE_DB_API_URL as string,
+  baseURL: url,
 });
 
 export default dbApi;

@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const URL = process.env.DB_URL;
+const DB = process.env.MONGO_CONN_STRING;
 
-if (URL === undefined)
-  throw new Error("Cannot connect to database. No URL provided");
+if (DB === undefined)
+  throw new Error("Cannot connect to database. No connection string provided");
 
 mongoose
-  .connect(URL)
+  .connect(DB)
   .then(() => {
     console.log("Successfully connected to database");
   })

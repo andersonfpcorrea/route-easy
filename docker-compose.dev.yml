@@ -5,6 +5,8 @@ services:
     build: ./frontend
     ports:
       - 5173:5173
+    volumes:
+      - ./frontend:/app
     networks:
       - react-express
     depends_on:
@@ -22,6 +24,8 @@ services:
     build: ./backend
     ports:
       - 3001:3001
+    volumes:
+      - ./backend:/app
     networks:
       - express-mongo
       - react-express

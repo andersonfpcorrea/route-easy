@@ -1,0 +1,88 @@
+[
+  {
+    "_id": "e99ca64b-83f6-4944-a784-93888ba5086b",
+    "colId": "b5460f42-729f-42f8-b5f2-295de5d63088",
+    "containerId": "5ec5db1c-33ca-48ad-8598-13dcdb6f28e7",
+    "name": "Get address",
+    "url": "{{geourl}}?address=Rua+C+15+Marambaia+Belém+Pará+Brasil&key={{key}}",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-12-17T02:54:27.207Z",
+    "modified": "2022-12-19T13:25:38.450Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "address",
+        "value": "Rua+C+15+Marambaia+Belém+Pará+Brasil",
+        "isPath": false
+      },
+      {
+        "name": "key",
+        "value": "{{key}}",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "9d79cf5a-7237-4e1f-b3ab-6dc18109583e",
+    "colId": "b5460f42-729f-42f8-b5f2-295de5d63088",
+    "containerId": "a688980e-9aad-415c-83be-35f97f9fda77",
+    "name": "Get deliveries",
+    "url": "{{dbapi}}/deliveries",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-12-19T13:25:03.417Z",
+    "modified": "2022-12-19T13:26:20.183Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "6ce267ad-77fd-49c9-880d-ee329c537baf",
+    "colId": "b5460f42-729f-42f8-b5f2-295de5d63088",
+    "containerId": "a688980e-9aad-415c-83be-35f97f9fda77",
+    "name": "Create delivery",
+    "url": "{{dbapi}}/deliveries",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2022-12-19T17:25:43.117Z",
+    "modified": "2022-12-20T04:01:13.206Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Anderson\",\n  \"weigth\": 210,\n  \"address\": {\n    \"number\": \"15\",\n    \"street\": \"Rua C\",\n    \"neighbourhood\": \"Marambaia\",\n    \"city\": \"Belém\",\n    \"state\": \"Pará\",\n    \"country\": \"Brasil\",\n    \"geolocation\": {\n      \"latitude\": -1.3967291,\n      \"longitude\": -48.4485519\n    },\n    \"complement\": \"66620-740\",\n    \"placeId\": \"32423423v23423423v423v423\"\n  }\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "d37dc230-4040-4a9d-a17e-4640b09d0642",
+    "colId": "b5460f42-729f-42f8-b5f2-295de5d63088",
+    "containerId": "a688980e-9aad-415c-83be-35f97f9fda77",
+    "name": "Delete delivery",
+    "url": "{{dbapi}}/deliveries/63a114ebecb7f290e45916d2",
+    "method": "DELETE",
+    "sortNum": 50000,
+    "created": "2022-12-20T01:33:32.537Z",
+    "modified": "2022-12-20T01:51:05.797Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "c4d76c33-94d8-44a0-9d93-de6d6375d4d8",
+    "colId": "b5460f42-729f-42f8-b5f2-295de5d63088",
+    "containerId": "a688980e-9aad-415c-83be-35f97f9fda77",
+    "name": "Delete deliveries",
+    "url": "{{dbapi}}/deliveries",
+    "method": "DELETE",
+    "sortNum": 60000,
+    "created": "2022-12-20T03:59:41.072Z",
+    "modified": "2022-12-20T04:01:20.670Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

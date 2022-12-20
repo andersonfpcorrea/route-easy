@@ -1,7 +1,8 @@
 FROM node:18-alpine
 EXPOSE 3001
-WORKDIR /usr/src/app
-COPY . .
+WORKDIR /app
+COPY package.json package-lock.json ./
 RUN npm i
+COPY . .
 ENTRYPOINT ["npm", "run"]
 CMD ["dev"]
