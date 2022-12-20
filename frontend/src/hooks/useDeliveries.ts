@@ -17,6 +17,7 @@ export default function useDeliveries(): IUseDeliveriesReturn {
 
   const createTableDataArray = (data: IDelivery[]): IDeliveryTable[] =>
     data.map((el) => ({
+      id: el._id,
       name: el.name,
       weigth: el.weigth,
       street: el.address?.street as string,
@@ -24,7 +25,6 @@ export default function useDeliveries(): IUseDeliveriesReturn {
       country: el.address?.country as string,
       lat: el.address?.geolocation.latitude as number,
       long: el.address?.geolocation.longitude as number,
-      timestamp: Date.now(),
     }));
 
   useEffect(() => {

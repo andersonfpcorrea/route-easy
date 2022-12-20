@@ -1,4 +1,5 @@
 import { LatLngTuple } from "leaflet";
+import { ReactElement } from "react";
 
 export interface IBasicAddress {
   street: string;
@@ -23,13 +24,14 @@ export interface IFormData<W> {
 }
 
 export interface IDelivery extends IFormData<number> {
+  _id: string;
   address?: IAddress;
 }
 
 export interface IDeliveryTable extends IBasicAddress, IFormData<number> {
+  id: string;
   lat: number;
   long: number;
-  timestamp: number;
 }
 
 export interface IInitalState {
@@ -122,4 +124,15 @@ export interface IUseDeliveriesReturn {
   errorDeliveries: IFetchError | null;
   isLoadingDeliveries: boolean;
   setUpdateTable: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface IUseTableReturn {
+  tableRows: Array<
+    ReactElement<any, string | React.JSXElementConstructor<any>>
+  > | null;
+  tableError: IFetchError | null;
+}
+
+export interface IDatabaseAPIError {
+  message?: string;
 }

@@ -3,7 +3,7 @@ import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
 import useTable from "../hooks/useTable";
 
 export default function TableMain(): ReactElement {
-  const tableRows = useTable();
+  const { tableRows } = useTable();
 
   return (
     <TableContainer width={"full"}>

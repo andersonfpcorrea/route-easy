@@ -1,19 +1,38 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import Context from "../context/Context";
-import { IDeliveryTable } from "../interfaces";
+import { IDeliveryTable, IFetchError, IUseTableReturn } from "../interfaces";
 import { Button, Flex, Icon, Td, Tr } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { deleteDelivery } from "../services/requests/dbRequests";
 
-export default function useTable(): Array<
-  ReactElement<any, string | React.JSXElementConstructor<any>>
-> | null {
-  const { tableData } = useContext(Context);
+export default function useTable(): IUseTableReturn {
+  const { tableData, setUpdateTable } = useContext(Context);
   const [tableRows, setTableRows] = useState<Array<
     ReactElement<any, string | React.JSXElementConstructor<any>>
   > | null>(null);
+  const [tableError, setTableError] = useState<IFetchError | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const markup = (delivery: IDeliveryTable, i: number): ReactElement => (
-    <Tr key={i}>
+  const handleDelete = (id: string): void => {
+    setIsDeleting(true);
+
+    deleteDelivery(id)
+      .then((data) => {
+        if (data !== null)
+          return setTableError({
+            error: { message: data.error?.message as string },
+          });
+        setUpdateTable(true);
+      })
+      .catch((e) => {
+        const { message, stack } = e as Error;
+        setTableError({ error: { message, stack } });
+      })
+      .finally(() => setIsDeleting(false));
+  };
+
+  const markup = (delivery: IDeliveryTable): ReactElement => (
+    <Tr key={delivery.id}>
       <Td>{delivery.name}</Td>
       <Td>{delivery.street}</Td>
       <Td>{delivery.city}</Td>
@@ -26,8 +45,11 @@ export default function useTable(): Array<
           <Button>
             <Icon as={EditIcon} />
           </Button>
-          <Button>
-            <Icon as={DeleteIcon} />
+          <Button
+            onClick={() => handleDelete(delivery.id)}
+            isLoading={isDeleting}
+          >
+            {!isDeleting && <Icon as={DeleteIcon} />}
           </Button>
         </Flex>
       </Td>
@@ -35,13 +57,11 @@ export default function useTable(): Array<
   );
 
   useEffect(() => {
-    if (tableData !== null && tableData.length > 0) {
-      console.log("I am updated");
-
-      const rows = tableData.map((t, i) => markup(t, i));
+    if (tableData !== null) {
+      const rows = tableData.map((t) => markup(t));
       setTableRows(rows);
     }
   }, [tableData]);
 
-  return tableRows;
+  return { tableRows, tableError };
 }

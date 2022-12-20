@@ -12,9 +12,6 @@ export default function globalErrorHandler(
 
   // For development only
   res.status(statusCode).json({
-    status: statusCode,
     message: err.message,
-    error: err,
-    stack: err.stack,
   });
 }
