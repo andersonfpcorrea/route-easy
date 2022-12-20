@@ -8,7 +8,10 @@ import {
   IUserFormProps,
 } from "../interfaces";
 import storeUserAddress from "../utils/storeUserAddress";
-import { postDelivery } from "../services/requests/dbRequests";
+import {
+  deleteDeliveries,
+  postDelivery,
+} from "../services/requests/dbRequests";
 
 /**
  * @param props References for the HTML input elements that will receive the form's data
@@ -20,10 +23,31 @@ import { postDelivery } from "../services/requests/dbRequests";
  */
 export default function useForm(props: IUserFormProps): IUseFormReturn {
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<IFetchError | null>(null);
   const [delivery, setDelivery] = useState<IDelivery | null>(null);
 
   const { setCoords, setUpdateTable } = useContext(Context);
+
+  const handleDelete = (): void => {
+    setIsDeleting(true);
+    deleteDeliveries()
+      .then((data) => {
+        if (data !== null)
+          return setError({
+            error: { message: data.error?.message as string },
+          });
+        // Dispatch order to update table:
+        setUpdateTable(true);
+        // Dispatch order to update map pins:
+        setCoords(null);
+      })
+      .catch((e) => {
+        const { message, stack } = e as Error;
+        setError({ error: { message, stack } });
+      })
+      .finally(() => setIsDeleting(false));
+  };
 
   const handleAddress = async (): Promise<void> => {
     const { value } = props.addressRef.current as HTMLInputElement;
@@ -80,5 +104,12 @@ export default function useForm(props: IUserFormProps): IUseFormReturn {
     }
   }, [delivery, setUpdateTable]);
 
-  return { isLoading, handleSubmit, handleAddress, error };
+  return {
+    isLoading,
+    handleSubmit,
+    handleAddress,
+    error,
+    isDeleting,
+    handleDelete,
+  };
 }

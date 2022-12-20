@@ -38,3 +38,17 @@ export const deleteDelivery = async (
     return { error: { message, stack } };
   }
 };
+
+export const deleteDeliveries = async (): Promise<IFetchError | null> => {
+  try {
+    const {
+      data: { message },
+    } = await dbApi.delete<IDatabaseAPIError>("/deliveries");
+    if (message !== undefined) return { error: { message } };
+    return null;
+  } catch (err) {
+    const { message, stack } = err as Error;
+    console.log(message, stack);
+    return { error: { message, stack } };
+  }
+};

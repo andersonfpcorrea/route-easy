@@ -114,6 +114,8 @@ export interface IUseFormReturn {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleAddress: () => Promise<void>;
   error?: IFetchError | null;
+  isDeleting: boolean;
+  handleDelete: () => void;
 }
 
 export interface IUserFormProps {

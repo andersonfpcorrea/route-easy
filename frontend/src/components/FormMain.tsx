@@ -19,11 +19,12 @@ export default function FormMain(): ReactElement {
 
   const { coords } = useContext(Context);
 
-  const { isLoading, handleSubmit, handleAddress } = useForm({
-    nameRef,
-    weigthRef,
-    addressRef,
-  });
+  const { isLoading, handleSubmit, handleAddress, handleDelete, isDeleting } =
+    useForm({
+      nameRef,
+      weigthRef,
+      addressRef,
+    });
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -120,7 +121,12 @@ export default function FormMain(): ReactElement {
           >
             Cadastrar Cliente
           </Button>
-          <Button width="full" type={"submit"}>
+          <Button
+            width="full"
+            type={"submit"}
+            onClick={handleDelete}
+            isLoading={isDeleting}
+          >
             Resetar cadastro
           </Button>
         </Flex>
