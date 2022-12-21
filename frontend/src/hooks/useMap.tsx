@@ -29,23 +29,28 @@ const defaultCoords: LatLngTuple = [-22.907, -43.173];
 
 export default function useMap(theme: IUseMapProps): void {
   const { coords, tableData } = useContext(Context);
-  const mapLocation =
-    coords === null || coords.length === 0
-      ? defaultCoords
-      : coords[coords.length - 1].coords;
 
   useEffect(() => {
+    const mapLocation =
+      coords === null || coords.length === 0
+        ? defaultCoords
+        : coords[coords.length - 1].coords;
+
     const map = L.map("map").setView(mapLocation, mapZoomLvl);
     L.tileLayer(LeafletThemes[theme].url, {
       maxZoom: LeafletThemes[theme].maxZoom,
       attribution: LeafletThemes[theme].attribution,
     }).addTo(map);
+
     if (coords !== null && tableData !== null && tableData.length > 0) {
-      coords.forEach((c, i) =>
+      coords.forEach((c, i) => {
+        console.log(c.coords, tableData[i]?.name);
+
         L.marker(c.coords)
           .on("click", () =>
             map.setView(c.coords, mapZoomLvl, {
-              animate: false,
+              animate: true,
+              duration: 1,
             })
           )
           .addTo(map)
@@ -54,12 +59,12 @@ export default function useMap(theme: IUseMapProps): void {
               tableData[i]?.weigth as number
             }kg`
           )
-          .openPopup()
-      );
+          .openPopup();
+      });
     }
 
     return () => {
       map.remove();
     };
-  }, [mapLocation, coords, theme, tableData]);
+  }, [coords, theme, tableData]);
 }

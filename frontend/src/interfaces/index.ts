@@ -133,6 +133,8 @@ export interface IUseDeliveriesReturn {
   errorDeliveries: IFetchError | null;
   isLoadingDeliveries: boolean;
   setUpdateTable: React.Dispatch<React.SetStateAction<boolean>>;
+  coords: ICoords[] | null;
+  setCoords: React.Dispatch<React.SetStateAction<ICoords[] | null>>;
 }
 
 export interface IUseTableReturn {

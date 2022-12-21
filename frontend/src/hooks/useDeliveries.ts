@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { getDeliveries } from "../services/requests/dbRequests";
 import {
+  ICoords,
   IDelivery,
   IDeliveryTable,
   IFetchError,
   IUseDeliveriesReturn,
 } from "../interfaces";
+import { LatLngTuple } from "leaflet";
 
 export default function useDeliveries(): IUseDeliveriesReturn {
   const [tableData, setTableData] = useState<IDeliveryTable[] | null>(null);
@@ -14,6 +16,7 @@ export default function useDeliveries(): IUseDeliveriesReturn {
   );
   const [isLoadingDeliveries, setIsLoadingDeliveries] = useState(false);
   const [updateTable, setUpdateTable] = useState(false);
+  const [coords, setCoords] = useState<ICoords[] | null>(null);
 
   const createTableDataArray = (data: IDelivery[]): IDeliveryTable[] =>
     data.map((el) => ({
@@ -31,7 +34,14 @@ export default function useDeliveries(): IUseDeliveriesReturn {
   useEffect(() => {
     getDeliveries()
       .then((data) => createTableDataArray(data as IDelivery[]))
-      .then((tableArray) => setTableData(tableArray))
+      .then((tableArray) => {
+        const coords: ICoords[] = tableArray.map((el) => ({
+          placeId: el.placeId,
+          coords: [el.lat, el.long] as LatLngTuple,
+        }));
+        setCoords(coords);
+        setTableData(tableArray);
+      })
       .catch((err) => {
         const { message, stack } = err as Error;
         setErrorDeliveries({ error: { message, stack } });
@@ -42,5 +52,12 @@ export default function useDeliveries(): IUseDeliveriesReturn {
       });
   }, [updateTable]);
 
-  return { tableData, errorDeliveries, isLoadingDeliveries, setUpdateTable };
+  return {
+    tableData,
+    errorDeliveries,
+    isLoadingDeliveries,
+    setUpdateTable,
+    coords,
+    setCoords,
+  };
 }
