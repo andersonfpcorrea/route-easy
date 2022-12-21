@@ -20,7 +20,12 @@
   "ignorePatterns": ["*config.cjs", "*config.ts"],
   "plugins": ["react"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/no-misused-promises": [
       "error",
