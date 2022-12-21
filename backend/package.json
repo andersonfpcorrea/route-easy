@@ -14,8 +14,7 @@
     "test": "mocha __tests__/**/*$NAME*.test.ts --exit",
     "lint:scripts": "eslint --ext .ts src"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Anderson Corrêa",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
