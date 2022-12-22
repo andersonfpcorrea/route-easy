@@ -95,18 +95,18 @@ export default function FormMain(): ReactElement {
           <Input
             type={"text"}
             placeholder={`${
-              coords === null || coords.at(0) === undefined
+              coords === null || coords.at(-1) === undefined
                 ? "Latitude"
-                : String(coords.at(0))
+                : String(coords[coords.length - 1].coords[0].toFixed(4))
             }`}
             disabled
           />
           <Input
             type={"text"}
             placeholder={`${
-              coords === null || coords.at(1) === undefined
+              coords === null || coords[coords.length - 1] === undefined
                 ? "Longitude"
-                : String(coords.at(1))
+                : String(coords[coords.length - 1].coords[1].toFixed(4))
             }`}
             disabled
           />
