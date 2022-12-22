@@ -41,8 +41,8 @@ export default function useTable(): IUseTableReturn {
       <Td>{delivery.city}</Td>
       <Td>{delivery.country}</Td>
       <Td isNumeric>{delivery.weigth}</Td>
-      <Td isNumeric>{delivery.lat}</Td>
-      <Td isNumeric>{delivery.long}</Td>
+      <Td isNumeric>{delivery.lat.toFixed(4)}</Td>
+      <Td isNumeric>{delivery.long.toFixed(4)}</Td>
       <Td>
         <Flex justifyContent={"space-around"}>
           <Button>
