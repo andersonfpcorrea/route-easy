@@ -12,6 +12,18 @@ export default function TableDetails(): ReactElement {
       ),
     [tableData]
   );
+  const averageTicket = useMemo(() => {
+    const avg =
+      (totalWeight === undefined ? 0 : totalWeight) /
+      (tableData?.length !== undefined
+        ? tableData?.length === 0
+          ? 1
+          : tableData?.length
+        : 1);
+
+    return avg;
+  }, [totalWeight, tableData]);
+
   return (
     <UnorderedList width={"full"}>
       <Flex justifyContent={"space-evenly"}>
@@ -19,13 +31,7 @@ export default function TableDetails(): ReactElement {
         <ListItem>Peso Total: {totalWeight}</ListItem>
         <ListItem>
           <Tooltip label="Peso Total/Total de Clientes">
-            <Text as="u">
-              Ticket Médio*:{" "}
-              {(
-                (totalWeight === undefined ? 0 : totalWeight) /
-                (tableData?.length !== undefined ? tableData?.length : 1)
-              ).toFixed(2)}
-            </Text>
+            <Text as="u">Ticket Médio*: {averageTicket}</Text>
           </Tooltip>
         </ListItem>
       </Flex>
