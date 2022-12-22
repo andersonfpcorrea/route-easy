@@ -6,7 +6,7 @@ export default function TableMain(): ReactElement {
   const { tableRows } = useTable();
 
   return (
-    <TableContainer width={"full"}>
+    <TableContainer width={"full"} overflowY={"auto"}>
       <Table variant="striped" colorScheme="gray">
         <Thead>
           <Tr>

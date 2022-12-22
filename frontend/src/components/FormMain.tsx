@@ -38,6 +38,7 @@ export default function FormMain(): ReactElement {
         display="flex"
         flexDirection="column"
         gap={10}
+        width="96"
       >
         <Flex direction={"column"} gap={6}>
           <FormControl isRequired>

@@ -11,7 +11,7 @@ export default function Home(): ReactElement {
       <FormMain />
       <VStack width="full" height="full" paddingX={4} gap={12}>
         <MapArea />
-        <Flex direction={"column"} gap={4} width={"full"}>
+        <Flex direction={"column"} gap={4} width={"full"} maxHeight={"96"}>
           <TableMain />
           <TableDetails />
         </Flex>
