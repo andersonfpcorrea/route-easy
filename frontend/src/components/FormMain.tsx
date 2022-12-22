@@ -16,6 +16,8 @@ export default function FormMain(): ReactElement {
   const nameRef = useRef<null | HTMLInputElement>(null);
   const weigthRef = useRef<null | HTMLInputElement>(null);
   const addressRef = useRef<null | HTMLInputElement>(null);
+  const latRef = useRef<null | HTMLInputElement>(null);
+  const longRef = useRef<null | HTMLInputElement>(null);
 
   const { coords } = useContext(Context);
 
@@ -24,6 +26,8 @@ export default function FormMain(): ReactElement {
       nameRef,
       weigthRef,
       addressRef,
+      latRef,
+      longRef,
     });
 
   return (
@@ -96,20 +100,26 @@ export default function FormMain(): ReactElement {
           <Input
             type={"text"}
             placeholder={`${
-              coords === null || coords.at(-1) === undefined
+              coords === null ||
+              coords.at(-1) === undefined ||
+              nameRef.current?.value === ""
                 ? "Latitude"
                 : String(coords[coords.length - 1].coords[0].toFixed(4))
             }`}
             disabled
+            ref={latRef}
           />
           <Input
             type={"text"}
             placeholder={`${
-              coords === null || coords[coords.length - 1] === undefined
+              coords === null ||
+              coords[coords.length - 1] === undefined ||
+              nameRef.current?.value === ""
                 ? "Longitude"
                 : String(coords[coords.length - 1].coords[1].toFixed(4))
             }`}
             disabled
+            ref={longRef}
           />
         </Flex>
 

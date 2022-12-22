@@ -123,6 +123,8 @@ export interface IUserFormProps {
   nameRef: React.MutableRefObject<HTMLInputElement | null>;
   weigthRef: React.MutableRefObject<HTMLInputElement | null>;
   addressRef: React.MutableRefObject<HTMLInputElement | null>;
+  latRef: React.MutableRefObject<HTMLInputElement | null>;
+  longRef: React.MutableRefObject<HTMLInputElement | null>;
 }
 
 export interface IFetchError {
