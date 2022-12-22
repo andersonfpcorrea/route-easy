@@ -74,8 +74,8 @@ export default function useForm(props: IUserFormProps): IUseFormReturn {
 
     // Reset form fields:
     Object.values(props).forEach(
-      (ref: React.MutableRefObject<HTMLInputElement>) => {
-        ref.current.value = "";
+      (ref: React.MutableRefObject<HTMLInputElement | null>) => {
+        if (ref.current !== null) ref.current.value = "";
       }
     );
   };
