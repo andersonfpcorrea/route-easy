@@ -56,6 +56,7 @@ export interface ILeafletThemeData {
   url: string;
   maxZoom: number;
   attribution: string;
+  iconColor: string;
 }
 
 export interface ILeafletThemes {
