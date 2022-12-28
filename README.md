@@ -1,5 +1,7 @@
 # route-easy
 
+https://user-images.githubusercontent.com/92505216/209775722-5240770d-8005-43e2-9b22-13de78469c4f.mp4
+
 This is my answer to the fullstack web developer challenge, proposed by Route Easy.
 
 The original challenge repository can be seen [here](https://github.com/RoutEasy/challenge-fullstack)
@@ -125,7 +127,7 @@ docker compose -f docker-compose.dev.yml up -d
 
 Note that, during development, if you make changes to the files outside of the **src** folders, you will need to put down the containers and compose them up again.
 
-Why not just bind-mount the entire subdirectories (frontend/backend), including **node_modules**, into the container 🤔? Well, I tryed 😆, but that is not a good idea for a couple of reasons, but the most import one is this:
+Why not just bind-mount the entire subdirectories (frontend/backend), including **node_modules**, into the container 🤔? Well, I tryed 😆, but that is not a good idea for a couple of reasons, but the most important one is this:
 
 - Some dependencies are **platform-specific** (for instance, _esbuild_ used by Vite), and therefore depend on native packages to run. If you run `npm i` on the _frontend_ subdirectory -- **not using a Linux machine** -- and map everything (using bind volume) into the container, the app is going to crash.
 
