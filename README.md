@@ -2,7 +2,7 @@
 
 https://user-images.githubusercontent.com/92505216/209775722-5240770d-8005-43e2-9b22-13de78469c4f.mp4
 
-This is my answer to the fullstack web developer challenge, proposed by Route Easy.
+This is my answer to the fullstack web developer challenge, proposed by RoutEasy.
 
 The original challenge repository can be seen [here](https://github.com/RoutEasy/challenge-fullstack)
 
