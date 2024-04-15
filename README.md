@@ -63,7 +63,7 @@ All required features were implemented using the MERN stack.
 - ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 - ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-## Next (senior) features
+## Next features
 
 - [ ] Tests (unit/integration) using Vitest, Cypress, Mocha, Chai and Sinon;
 - [ ] Authentication/authorization as microservice;
